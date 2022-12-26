@@ -7,12 +7,13 @@ import { TextInput } from "../../components/TextInput";
 
 class Home extends Component {
   // Que esse atributo, recebe esse método, assim permitindo ele ter o this dentro
+  // Toda vez que o estado mudar, o que está na minha tela será re-renderizado
   state = {
     posts: [],
     allPosts: [],
     page: 0,
     postsPerPage: 2,
-    searchValue: "qui",
+    searchValue: "",
   };
 
   async componentDidMount() {
@@ -37,6 +38,9 @@ class Home extends Component {
     this.setState({ posts, page: nextPage });
   };
 
+  // Para mudar o estado da minha HOME, crio então uma função que altera esse valor
+  // Em seguida consigo passar ela para o componente responsável por chamar essa função
+  // A qual, por meio do meu componente, consegue mudar o estado da minha HOME
   handleChange = (e) => {
     const { value } = e.target;
     this.setState({ searchValue: value });
@@ -57,10 +61,7 @@ class Home extends Component {
         <div className="search-container">
           {!!searchValue && <h1>Search value: {searchValue}</h1>}
 
-          <TextInput
-            searchValue={searchValue}
-            handleChange={this.handleChange}
-          />
+          <TextInput searchValue={searchValue} actionFn={this.handleChange} />
         </div>
 
         {filteredPosts.length > 0 && <Posts posts={filteredPosts} />}
