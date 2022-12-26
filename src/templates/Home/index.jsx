@@ -8,6 +8,7 @@ import { TextInput } from "../../components/TextInput";
 class Home extends Component {
   // Que esse atributo, recebe esse método, assim permitindo ele ter o this dentro
   // Toda vez que o estado mudar, o que está na minha tela será re-renderizado
+  // React Developer Tools
   state = {
     posts: [],
     allPosts: [],
