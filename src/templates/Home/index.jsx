@@ -46,6 +46,23 @@ const Home = () => {
     handleLoadPosts(0, postsPerPage);
   }, [handleLoadPosts, postsPerPage]);
 
+  // Virtual and Real Manipulation
+  /*   handleClick = () => {
+    this.setState({ counter: this.state.counter + 1},
+      () => {
+        console.log(this.state.counter)
+      })
+    this.setState(
+      (prevState, prevProps) => {
+        console.log(prevState.counter)
+        return { counter: prevState.counter + 1},
+        () => {
+          console.log(this.state.counter)
+        }
+      }
+    )
+  } */
+
   return (
     <section className="container">
       <div className="search-container">
