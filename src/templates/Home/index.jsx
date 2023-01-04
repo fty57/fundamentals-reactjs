@@ -5,6 +5,7 @@ import { Button } from "../../components/Button";
 import { TextInput } from "../../components/TextInput";
 import { useState } from "react";
 import { useEffect, useCallback } from "react";
+import { React } from "react";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -15,7 +16,7 @@ const Home = () => {
 
   const noMorePosts = page + postsPerPage >= allPosts.length;
 
-  const filteredPosts = !!searchValue
+  const filteredPosts = searchValue
     ? allPosts.filter((post) => {
         return post.title.toLowerCase().includes(searchValue.toLowerCase());
       })
