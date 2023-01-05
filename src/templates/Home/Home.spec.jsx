@@ -3,6 +3,7 @@ import setupServer from "msw/node";
 import {
   render,
   screen,
+  userEvent,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import Home from ".";
@@ -67,5 +68,48 @@ describe("<Home />", () => {
 
     const button = screen.getByRole("button", { name: /load more posts/i });
     expect(button).toBeInTheDocument();
+  });
+
+  it("should search for posts", async () => {
+    render(<Home />);
+    const noMorePosts = screen.getByText("Não existem posts");
+
+    //expect.assertions(3);
+
+    const search = screen.getAllByPlaceholderText(/type your search/i);
+    expect(
+      search.getByRole("heading", { name: "title 1" })
+    ).toBeInTheDocument();
+    expect(
+      search.getByRole("heading", { name: "title 2" })
+    ).toBeInTheDocument();
+    expect(
+      search.queryByRole("heading", { name: "title 3" })
+    ).not.toBeInTheDocument();
+
+    userEvent.type(search, "title1");
+    expect(
+      search.getByRole("heading", { name: "title 1" })
+    ).toBeInTheDocument();
+    expect(
+      search.getByRole("heading", { name: "title 2" })
+    ).not.toBeInTheDocument();
+    expect(
+      search.queryByRole("heading", { name: "title 3" })
+    ).not.toBeInTheDocument();
+    expect(
+      search.queryByRole("heading", { name: "Search value: 'title1" })
+    ).not.toBeInTheDocument();
+
+    userEvent.clear(search);
+    expect(
+      search.getByRole("heading", { name: "title 1" })
+    ).toBeInTheDocument();
+    expect(
+      search.getByRole("heading", { name: "title 2" })
+    ).toBeInTheDocument();
+
+    userEvent.clear(search, "blabla");
+    expect(screen.getByText("No more posts")).toBeInTheDocument();
   });
 });
