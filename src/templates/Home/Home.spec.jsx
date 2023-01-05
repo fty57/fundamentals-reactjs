@@ -112,4 +112,20 @@ describe("<Home />", () => {
     userEvent.clear(search, "blabla");
     expect(screen.getByText("No more posts")).toBeInTheDocument();
   });
+
+  it("should load more posts", async () => {
+    render(<Home />);
+    const noMorePosts = screen.getByText("Não existem posts");
+
+    await waitForElementToBeRemoved(noMorePosts);
+
+    const button = screen.getByRole("button", { name: /load more posts/i });
+    expect(button).toBeInTheDocument();
+
+    userEvent.click(button);
+    expect(
+      search.getByRole("heading", { name: "title 3" })
+    ).toBeInTheDocument();
+    expect(button).toBeDisabled();
+  });
 });
